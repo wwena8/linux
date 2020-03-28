@@ -23,3 +23,19 @@ IP指令指针寄存器；实模式寻址：CS:IP(CS左移4位+IP偏移)
 引导扇区代码：bootsect.s 13号中断、10号中断，读入setup、system
 
 4 setup模块 4个扇区 
+
+# L3 操作系统启动
+
+1 开机两件事：读入内存->初始化,
+
+2 setup作用：获取硬件参数、将system系统移动到内存0位置、进入保护模式、跳到0地址执行
+
+mov	ax,#0x0001	! protected mode (PE) bit
+
+lmsw	ax		! This is it!
+
+jmpi	0,8		
+
+实模式下16位：CS<<4+ip 保护模式下32位：PE=1启动保护模式 GDT地址翻译 IDT中断处理
+
+3 head.s 32位汇编 eax ax区别 初始化GDT、页表、
